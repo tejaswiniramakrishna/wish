@@ -1,0 +1,160 @@
+/* C Program For Implementation Of Linear Block Code.
+The User Should Enter the following details :
+For A Generator Matrix
+1. The No Of Message Bits(n)
+2. The No Of Parity Bits(k)
+3. And The Message Bits */
+
+#include< stdio.h>
+#include< conio.h>
+
+void main()
+{
+int i,j,n,k,M[10],C[10],G[10][10],par[10][10];
+clrscr();
+printf(" For A Generator Matrix Enter :\n");
+printf("1. The No Of Message Bits(n)\t: ");
+scanf("%d",&n);
+printf("2. The No Of Parity Bits(k)\t: ");
+scanf("%d",&k);
+printf("\nEnter The Elements Of Generator Matrix:\n");
+for(i=0;i< k;i++)
+for(j=0;j< n;j++)
+scanf("%d",&G[i][j]);
+printf("\nEnter The Message Bits\n");
+for(i=0;i< k;i++)
+scanf("%d",&M[i]);
+printf("\t\t\tResult\n");
+printf("____________________________________________________");
+printf("\n\tThe Generator Matrix Is :\n\t");
+for(i=0;i< k;i++)
+{
+for(j=0;j< n;j++)
+printf("%d\t",G[i][j]);
+printf("\n\t");
+}
+printf("\n\tThe Parity Matrix Is :\n\t");
+for(i=0;i< k;i++)
+{
+for(j=0;j< n-k;j++)
+{
+par[i][j]=G[i][j+k];
+printf("%d\t",par[i][j]);
+}
+printf("\n\t");
+}
+printf("\n\tThe Messege Bits :\n\t");
+for(i=0;i< k;i++)
+printf("%d ",M[i]);
+printf("\n\n\tThe Parity Bits :");
+for(i=0;i< n-k;i++)
+{
+C[i] = 0;
+for(j=0;j< k;j++)
+C[i]=(C[i] + M[j] * par[j][i])%2;
+printf("\n\tC%d = %d",i+1,C[i]);
+}
+printf("\n\n\tCode Word For Given Messege Bit:\n\t");
+for(i=0;i< k;i++)
+printf("%d ",M[i]);
+for(i=0;i< n-k;i++)
+printf("%d ",C[i]);
+printf("\n____________________________________________________");
+getch();
+}
+
+huffman coding 
+clc;
+p =input("enter the probabilities");
+n =length(p);
+symbols = [1:n];
+[dict,avglen] = huffmandict(symbols,p);
+temp =dict;
+t = dict(:,2);
+for i = 1:length(temp)
+temp{i,2} = num2str(temp{i,2});
+end;
+disp("the huffman code dict");
+disp(temp);
+
+shannon encoding
+
+clc;
+clear all;
+close all;
+N = input('Enter the no. of symbols');
+P1 = input('Enter probabilities of each symbol');
+P = sort(P1, 'descend');
+su1 = sum(P);
+aq = num2str(su1);
+su2 = str2double(aq);
+if(su2~=1)
+    h = msgbox('Sum of probability should be one', 'Error','error');
+return;
+else
+    disp('total probability sum is one');
+end
+[r1, c1] = size(P);
+if(N~=c1)
+    h =msgbox('probability dimension is not matching with given no. of symbols','Error','error');
+    return;
+end;
+m = zeros(1,N);
+m1 = zeros(1,N);
+H = 0;
+result1=zeros(1,N);
+f = zeros(1,N);
+g = zeros(1,N);
+k = zeros(1,N);
+N_bar=0;
+for i=1:N
+    H=H+P(i)*log2(1/(P(i)));
+    m(i)=1+log2(1/P(i));
+    m1(i)=log2(1/(P(i)));
+    temp=m1(i)-fix(m1(i));
+    if(temp==0)
+        m(i)=m1(i);
+    end
+    r=fix(m(i));
+    N_bar=N_bar+r*P(i);
+    if(i==1)
+        f(i)=0;
+    else
+        f(i)=P(i-1)+f(i-1);
+    end
+    for j=1:r
+        if(j==1)
+            g(j)=f(i)*2;
+        else
+            g(j)=g(j-1)*2;
+        end
+        k(j)=fix(g(j))
+        if(g(j)>=1)
+            g(j)=g(j)-1;
+        end
+        if(j==1)
+            result1=sprintf('%0*d',1,(k(j)));
+        else
+            if(k(j)==0)
+                result2=sprintf('%0*d',1,k(j));
+                result1=strcat(result1,result2);
+            else
+                result1=strcat(result1,num2str(k(j)));
+            end
+        end
+    end
+    result{i}=result1;
+end
+eff =H/N_bar;
+disp('entropy'); H
+disp('avearge no of bits per symbol'); N_bar
+disp('efficiency');eff
+disp('binary');result
+disp('code with prob'); P
+pause(.5)
+disp('are'); result
+disp('resp')
+
+
+
+
